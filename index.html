@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rapid City Digital – iPod Player Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #0d0d14;
+      color: #ddd;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── nav ── */
+    nav {
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      color: #fff;
+    }
+    .nav-logo span { color: #4a9af0; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: #aaa; text-decoration: none; font-size: 14px; transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+
+    /* ── hero ── */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .hero-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #4a9af0;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero-h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero-h1 em { font-style: normal; color: #4a9af0; }
+    .hero-sub {
+      font-size: clamp(16px, 2.2vw, 20px);
+      color: #888;
+      max-width: 560px;
+      line-height: 1.55;
+      margin-bottom: 40px;
+    }
+    .hero-hint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 40px;
+      padding: 12px 22px;
+      font-size: 14px;
+      color: #bbb;
+      animation: pulseHint 2.4s ease-in-out infinite;
+    }
+    .hero-hint .arrow { font-size: 18px; color: #4a9af0; }
+    @keyframes pulseHint {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74,154,240,.0); }
+      50%       { box-shadow: 0 0 0 8px rgba(74,154,240,.15); }
+    }
+
+    /* ── features ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 40px 40px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .feat {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .feat-icon { font-size: 28px; margin-bottom: 10px; }
+    .feat-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .feat-desc  { font-size: 12px; color: #666; line-height: 1.5; }
+
+    /* ── install code ── */
+    .install-section {
+      background: rgba(255,255,255,.03);
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .install-section h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .install-section p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .code-block {
+      display: inline-block;
+      background: #1a1a28;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 14px 24px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      color: #7ecbff;
+      cursor: pointer;
+      transition: background .2s;
+      user-select: all;
+    }
+    .code-block:hover { background: #1e1e32; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Rapid City <span>Digital</span></div>
+    <div class="nav-links">
+      <a href="#">Services</a>
+      <a href="#">Work</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">Now Playing</div>
+    <h1 class="hero-h1">We make brands<br><em>impossible to ignore.</em></h1>
+    <p class="hero-sub">
+      Social media strategy, content creation, and paid ads —
+      built for businesses that want to grow in the Black Hills and beyond.
+    </p>
+    <div class="hero-hint">
+      <span class="arrow">↘</span>
+      Hit the music button in the corner to open the player
+    </div>
+  </section>
+
+  <div class="features">
+    <div class="feat">
+      <div class="feat-icon">🎛️</div>
+      <div class="feat-title">Classic Click Wheel</div>
+      <div class="feat-desc">Rotate to scroll through tracks. Click the outer ring zones for MENU, skip, and play/pause.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🎵</div>
+      <div class="feat-title">Suno Ready</div>
+      <div class="feat-desc">Drop your Suno audio URLs into the TRACKS array in ipod-widget.js and you're live.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🖥️</div>
+      <div class="feat-title">Embed Anywhere</div>
+      <div class="feat-desc">One &lt;script&gt; tag. Works on any site — Webflow, WordPress, Squarespace, or custom code.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">⌨️</div>
+      <div class="feat-title">Keyboard Support</div>
+      <div class="feat-desc">Arrow keys navigate, Enter selects, Space plays/pauses, Escape goes back.</div>
+    </div>
+  </div>
+
+  <div class="install-section">
+    <h2>Add to any page</h2>
+    <p>Paste this before the closing &lt;/body&gt; tag</p>
+    <div class="code-block">&lt;script src="ipod-widget.js"&gt;&lt;/script&gt;</div>
+  </div>
+
+  <!-- ═══ iPod Widget ═══ -->
+  <script src="ipod-widget.js"></script>
+
+</body>
+</html>
