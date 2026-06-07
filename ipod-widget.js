@@ -110,13 +110,21 @@
     '    inset 0 -1px 0 rgba(0,0,0,.08);',
     '  padding-bottom:20px;',
     '  transform-origin:bottom right;',
-    '  transition:transform .32s cubic-bezier(.34,1.56,.64,1),opacity .28s ease;',
     '}',
-    '#rcd-ipod-device.rcd-hidden{transform:scale(.58) translateY(24px);opacity:0;pointer-events:none;}',
-    '#rcd-ipod-device.rcd-visible{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}',
+    /* hide: fast ease-in, shrinks to nothing toward the toggle button */
+    '#rcd-ipod-device.rcd-hidden{transform:scale(.03);opacity:0;pointer-events:none;transition:transform .26s cubic-bezier(.55,.06,.68,.19),opacity .18s ease;}',
+    /* show: bouncy pop up from toggle corner */
+    '#rcd-ipod-device.rcd-visible{transform:scale(1);opacity:1;pointer-events:all;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s ease;}',
 
-    /* ── top bar (hold switch + jack) ── */
-    '.rcd-top-bar{height:30px;display:flex;align-items:center;padding:0 18px;gap:10px;}',
+    /* toggle button bounce when iPod hides into it */
+    '@keyframes rcdCatch{0%{transform:scale(1)}45%{transform:scale(1.28)}100%{transform:scale(1)}}',
+    '#rcd-ipod-toggle.rcd-catch{animation:rcdCatch .32s ease;}',
+
+    /* ── top bar (hold switch + jack + hide button) ── */
+    '.rcd-top-bar{height:30px;display:flex;align-items:center;padding:0 14px 0 18px;gap:10px;}',
+    '.rcd-hide-btn{margin-left:auto;background:rgba(0,0,0,.12);border:none;border-radius:8px;padding:3px 8px;font-size:9px;font-weight:700;color:#888;cursor:pointer;letter-spacing:.6px;text-transform:uppercase;line-height:1;transition:background .15s,color .15s;}',
+    '.rcd-hide-btn:hover{background:rgba(0,0,0,.22);color:#555;}',
+    '.rcd-hide-btn:active{background:rgba(0,0,0,.3);}',
     '.rcd-jack{width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#555,#333);box-shadow:0 1px 2px rgba(0,0,0,.5);}',
     '.rcd-hold-track{width:28px;height:10px;border-radius:5px;background:linear-gradient(180deg,#c5c5c5,#aaa);position:relative;box-shadow:inset 0 1px 2px rgba(0,0,0,.3);}',
     '.rcd-hold-track::after{content:"";position:absolute;left:2px;top:1px;width:12px;height:8px;border-radius:4px;background:linear-gradient(180deg,#e6e6e6,#c6c6c6);box-shadow:0 1px 1px rgba(0,0,0,.28);}',
@@ -294,6 +302,7 @@
         '<div class="rcd-top-bar">' +
           '<div class="rcd-jack"></div>' +
           '<div class="rcd-hold-track"></div>' +
+          '<button class="rcd-hide-btn" id="rcd-hide-btn">Hide</button>' +
         '</div>' +
 
         '<div class="rcd-screen-bezel"><div class="rcd-screen">' +
@@ -371,7 +380,8 @@
       tCur:      w.querySelector('#rcd-t-cur'),
       tTot:      w.querySelector('#rcd-t-tot'),
       wheel:     w.querySelector('#rcd-wheel'),
-      center:    w.querySelector('#rcd-center')
+      center:    w.querySelector('#rcd-center'),
+      hideBtn:   w.querySelector('#rcd-hide-btn')
     };
   }
 
@@ -657,6 +667,14 @@
     } else {
       els.device.classList.remove('rcd-visible');
       els.device.classList.add('rcd-hidden');
+      // toggle button bounces to show where the iPod shrank into
+      els.toggle.classList.remove('rcd-catch');
+      void els.toggle.offsetWidth; // force reflow so re-adding class retriggers animation
+      els.toggle.classList.add('rcd-catch');
+      els.toggle.addEventListener('animationend', function h() {
+        els.toggle.classList.remove('rcd-catch');
+        els.toggle.removeEventListener('animationend', h);
+      });
     }
   }
 
@@ -675,6 +693,7 @@
   // ─────────────────────────────────────────────────────────────────────────
   function bindEvents() {
     els.toggle.addEventListener('click', toggleDevice);
+    els.hideBtn.addEventListener('click', toggleDevice);
 
     els.wheel.addEventListener('mousedown',  onWheelDown);
     els.wheel.addEventListener('touchstart', onWheelDown, { passive: false });
